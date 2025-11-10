@@ -77,12 +77,23 @@ st.dataframe(summary_df, hide_index=True, use_container_width=True)
 st.metric("Total Price", f"${grand_total:,.2f}")
 
 # ---------- Total time only (weeks→business days via working_days_per_week) ----------
-buffer = buffer_days(SPEC)
-total_business_days = int(l1_impl_days_sum) + int(l2_days) + int(l3_base_days + l3_addons_days) + int(buffer)
+# ---------- Total time only (weeks→business days via working_days_per_week) ----------
+if l1_rows:
+    buffer = buffer_days(SPEC)
+    total_business_days = int(l1_impl_days_sum) + int(l2_days) + int(l3_base_days + l3_addons_days) + int(buffer)
+else:
+    # ✅ No source selected → total = 0 by default
+    buffer = 0
+    total_business_days = 0
+
 approx_calendar = to_calendar_days(total_business_days, wd)
 
 st.subheader("Total Implementation Time")
-st.success(f"**Total:** {total_business_days} business days (~{approx_calendar} calendar days, assuming {wd} working days/week).")
+st.success(
+    f"**Total:** {total_business_days} business days "
+    f"(~{approx_calendar} calendar days, assuming {wd} working days/week)."
+)
+
 
 today = date.today()
 finish = add_business_days(today, total_business_days, wd)

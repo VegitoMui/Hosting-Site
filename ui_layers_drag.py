@@ -180,18 +180,19 @@ def render_layer2_drag(spec: dict, num_sources: int):
 
 # ---------- Select destination + Add-ons ----------
 # ---------- Select destination + Add-ons ----------
+# ---------- Select destination + Add-ons ----------
 def render_layer3_drag(spec: dict):
     """
     Destination is fixed; add-ons are optional via drag.
     Returns: target_name, fixed_cost, base_days, addon_rows, addons_cost, addons_days
     """
 
-    # ✅ Guard: only allow destination selection AFTER a source is chosen
+    # ✅ Only allow destination selection AFTER a source is chosen
     ss = st.session_state
     if not ss.get("l1_selected_source"):
         st.subheader("Select destination")
         st.info("Please select a source in Step 1 before configuring the destination and add-ons.")
-        # No destination yet → everything 0 / empty so summary stays clean
+        # No destination yet
         return None, 0.0, 0, [], 0.0, 0
 
     # Destination
@@ -245,4 +246,5 @@ def render_layer3_drag(spec: dict):
         st.info("No add-ons selected.")
 
     return target_name, fixed_cost, base_days, addon_rows, addons_cost, addons_days
+
 
